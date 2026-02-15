@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Result Management System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="sidebar">
+        <div class="brand">
+            <h2>SRMS</h2>
+        </div>
+        <ul class="nav">
+            <li><a href="{{ url_for('index') }}" class="{{ 'active' if request.endpoint == 'index' else '' }}"><i
+                        class="fas fa-th-large"></i> Dashboard</a></li>
+            <li><a href="{{ url_for('students') }}" class="{{ 'active' if request.endpoint == 'students' else '' }}"><i
+                        class="fas fa-user-graduate"></i> Students</a></li>
+            <li><a href="{{ url_for('results') }}" class="{{ 'active' if request.endpoint == 'results' else '' }}"><i
+                        class="fas fa-poll-h"></i> Results</a></li>
+        </ul>
+        <div class="footer">
+            <p>&copy; 2026 SRMS</p>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <h1>Student Result Management System</h1>
+        </header>
+
+        <div class="container">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">
+                {{ message }}
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            </div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+
+    <script>
+        // Optional JavaScript for interactivity
+    </script>
+</body>
+
+</html>

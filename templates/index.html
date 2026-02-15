@@ -1,0 +1,27 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+<div class="dashboard-info">
+    <h2>Welcome Back, Admin!</h2>
+    <p>Efficiently manage your students and their academic results from one central hub. Select a module below to get
+        started.</p>
+</div>
+<br>
+
+<div class="row">
+    <div class="card">
+        <div class="icon-box">
+            <i class="fas fa-user-graduate"></i>
+        </div>
+        <h3>Total Students</h3>
+        <p class="count">{{ total_students }}</p>
+    </div>
+    <div class="card">
+        <div class="icon-box">
+            <i class="fas fa-poll-h"></i>
+        </div>
+        <h3>Total Results</h3>
+        <p class="count">{{ total_results }}</p>
+    </div>
+</div>
+{% endblock %}

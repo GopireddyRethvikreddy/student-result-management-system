@@ -1,0 +1,125 @@
+{% extends 'layout.html' %}
+{% block content %}
+<h2>Manage Students</h2>
+
+<div class="card-form">
+    <h3>Add / Update Student</h3>
+    <form action="{{ url_for('students') }}" method="POST">
+        <div class="form-row">
+            <div class="form-group">
+                <label>Roll No (Unique)</label>
+                <input type="text" name="roll_no" required placeholder="Enter Roll No">
+            </div>
+            <div class="form-group">
+                <label>Name</label>
+                <input type="text" name="name" required placeholder="Enter Name">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" name="email" required placeholder="Enter Email">
+            </div>
+            <div class="form-group">
+                <label>Gender</label>
+                <select name="gender">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>D.O.B</label>
+                <input type="date" name="dob" required>
+            </div>
+            <div class="form-group">
+                <label>Contact</label>
+                <input type="text" name="contact" required placeholder="Enter Contact">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>Course</label>
+                <input type="text" name="course" required placeholder="Enter Course">
+            </div>
+            <div class="form-group">
+                <label>Address</label>
+                <input type="text" name="address" required placeholder="Enter Address">
+            </div>
+        </div>
+
+        <button type="submit" name="add" class="btn btn-primary">Add Student</button>
+        <button type="submit" name="update" class="btn btn-warning">Update (Use Roll No)</button>
+        <button type="submit" name="delete" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete (Use
+            Roll No)</button>
+    </form>
+</div>
+
+<div class="search-box">
+    <form action="{{ url_for('students') }}" method="GET">
+        <input type="text" name="search" placeholder="Search by Name or Roll No">
+        <button type="submit" class="btn btn-info">Search</button>
+    </form>
+</div>
+
+<div class="table-container">
+    <table>
+        <thead>
+            <tr>
+                <th>Roll No</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Gender</th>
+                <th>DOB</th>
+                <th>Course</th>
+                <th>Contact</th>
+                <th>Address</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student in students %}
+            <tr>
+                <td>{{ student[0] }}</td>
+                <td>{{ student[1] }}</td>
+                <td>{{ student[2] }}</td>
+                <td>{{ student[3] }}</td>
+                <td>{{ student[4] }}</td>
+                <td>{{ student[7] }}</td> <!-- Adjust index based on DB schema -->
+                <td>{{ student[5] }}</td>
+                <td>{{ student[11] }}</td> <!-- Adjust index based on DB schema -->
+            </tr>
+            {% endfor %}
+            {% if not students %}
+            <tr>
+                <td colspan="8">No students found.</td>
+            </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+
+<script>
+    // Simple script to populate form on row click (optional enhancement)
+    const table = document.querySelector('table');
+    table.addEventListener('click', (e) => {
+        const row = e.target.closest('tr');
+        if (row && row.children.length > 1) { // Avoid header or empty row
+            const inputs = document.querySelectorAll('input, select');
+            // Assuming order matches form inputs roughly, but manual mapping is safer.
+            // For simplicity, just fill Roll No as it's the key
+            const rollNo = row.children[0].innerText;
+            document.querySelector("input[name='roll_no']").value = rollNo;
+            document.querySelector("input[name='name']").value = row.children[1].innerText;
+            document.querySelector("input[name='email']").value = row.children[2].innerText;
+            document.querySelector("select[name='gender']").value = row.children[3].innerText;
+            // Date might need formatting if different
+            document.querySelector("input[name='dob']").value = row.children[4].innerText;
+            document.querySelector("input[name='course']").value = row.children[5].innerText;
+            document.querySelector("input[name='contact']").value = row.children[6].innerText;
+            document.querySelector("input[name='address']").value = row.children[7].innerText;
+        }
+    });
+</script>
+{% endblock %}
